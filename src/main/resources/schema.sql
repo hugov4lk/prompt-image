@@ -7,7 +7,7 @@ CREATE TABLE person
 CREATE TABLE car
 (
     id          bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    person_id   bigint NOT NULL,
+    person_id   bigint       NOT NULL,
     make        varchar(256) NOT NULL,
     model       varchar(256) NOT NULL,
     numberplate varchar(256) NOT NULL,

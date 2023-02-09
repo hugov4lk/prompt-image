@@ -29,7 +29,7 @@ public class UserService {
             return userRepository.findAll(Sort.by(Sort.Direction.valueOf(sorting[1].toUpperCase()), sorting[0]));
         }
         String search = "%" + find + "%";
-        return userRepository.findAll(search, Sort.by(Sort.Direction.valueOf(sorting[1].toUpperCase()), sorting[0]));
+        return userRepository.findAll(search.toUpperCase(), Sort.by(Sort.Direction.valueOf(sorting[1].toUpperCase()), sorting[0]));
     }
 
     public List<Car> findUserCars(Long id) {
