@@ -20,19 +20,18 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
-          java-version: "17.0"
-          distribution: "temurin"
+          java-version: "17"
+          distribution: "corretto"
           cache: gradle
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew build -x test
       - name: Run integration tests
-        run: ./gradlew test
+        run: ./gradlew test i
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2.4.1
         if: always()
         with:
           files: |
             test-results/**/*.xml
-            test-results/**/*.trx

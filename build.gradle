@@ -6,7 +6,8 @@ plugins {
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
+sourceCompatibility = 17
+targetCompatibility = 17
 
 configurations {
 	compileOnly {
@@ -31,4 +32,5 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+	testLogging.showStandardStreams = true
 }
