@@ -12,8 +12,8 @@ import com.example.homework.repository.entity.Car;
 @Repository
 public interface CarRepository extends JpaRepository<Car, Long> {
 
-    List<Car> findByPersonId(Long person_id);
+    List<Car> findByPersonId(Long id);
 
     @Query("SELECT c FROM Car c WHERE UPPER(c.make) LIKE ?1 OR UPPER(c.model) LIKE ?1 OR UPPER(c.numberplate) LIKE ?1")
-    List<Car> findCarsBySearch(String search, Sort sort);
+    List<Car> findAll(String search, Sort sort);
 }

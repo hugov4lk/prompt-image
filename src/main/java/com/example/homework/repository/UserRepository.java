@@ -13,5 +13,5 @@ import com.example.homework.repository.entity.User;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("SELECT u FROM User u WHERE UPPER(u.name) LIKE ?1")
-    List<User> findAll(String find, Sort sort);
+    List<User> findAll(String search, Sort sort);
 }

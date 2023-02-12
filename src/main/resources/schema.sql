@@ -11,5 +11,5 @@ CREATE TABLE car
     make        varchar(256) NOT NULL,
     model       varchar(256) NOT NULL,
     numberplate varchar(256) NOT NULL,
-    FOREIGN KEY (person_id) REFERENCES person (id)
+    FOREIGN KEY (person_id) REFERENCES person (id) ON DELETE CASCADE
 );
