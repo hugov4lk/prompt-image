@@ -1,13 +1,13 @@
-package com.example.homework.service;
+package com.example.java.template.service;
 
 import java.util.List;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.example.homework.exception.NotFoundException;
-import com.example.homework.repository.CarRepository;
-import com.example.homework.repository.entity.Car;
+import com.example.java.template.exception.NotFoundException;
+import com.example.java.template.repository.CarRepository;
+import com.example.java.template.repository.entity.Car;
 import lombok.RequiredArgsConstructor;
 
 @Service

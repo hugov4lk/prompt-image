@@ -1,4 +1,4 @@
-package com.example.homework.controller;
+package com.example.java.template.controller;
 
 import java.util.List;
 
@@ -7,9 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.homework.controller.util.ValidationUtil;
-import com.example.homework.repository.entity.User;
-import com.example.homework.service.UserService;
+import com.example.java.template.service.UserService;
+import com.example.java.template.controller.util.ValidationUtil;
+import com.example.java.template.repository.entity.User;
 import lombok.RequiredArgsConstructor;
 
 @RestController

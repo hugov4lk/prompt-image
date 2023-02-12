@@ -1,4 +1,4 @@
-package com.example.homework.controller;
+package com.example.java.template.controller;
 
 import java.util.List;
 
@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.homework.controller.util.ValidationUtil;
-import com.example.homework.repository.entity.Car;
-import com.example.homework.service.CarService;
+import com.example.java.template.service.CarService;
+import com.example.java.template.controller.util.ValidationUtil;
+import com.example.java.template.repository.entity.Car;
 import lombok.RequiredArgsConstructor;
 
 @RestController

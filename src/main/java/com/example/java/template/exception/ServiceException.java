@@ -1,4 +1,4 @@
-package com.example.homework.exception;
+package com.example.java.template.exception;
 
 import lombok.Getter;
 

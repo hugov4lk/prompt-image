@@ -1,9 +1,9 @@
-package com.example.homework.controller.util;
+package com.example.java.template.controller.util;
 
 import java.util.regex.Pattern;
 
-import com.example.homework.exception.ServiceErrorCode;
-import com.example.homework.exception.ServiceException;
+import com.example.java.template.exception.ServiceErrorCode;
+import com.example.java.template.exception.ServiceException;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass

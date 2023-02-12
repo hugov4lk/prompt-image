@@ -1,4 +1,4 @@
-package com.example.homework.controller;
+package com.example.java.template.controller;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.stream.Stream;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -17,8 +18,8 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 
-import com.example.homework.exception.ExceptionDto;
-import com.example.homework.exception.ServiceErrorCode;
+import com.example.java.template.exception.ExceptionDto;
+import com.example.java.template.exception.ServiceErrorCode;
 
 abstract class AbstractControllerIntegrationTest {
 
@@ -54,7 +55,7 @@ abstract class AbstractControllerIntegrationTest {
         assertNotNull(response.getBody());
         assertEquals("Bad request", response.getBody().message());
         assertEquals(String.format("Sort parameter '%s' is not valid.", sortParameter), response.getBody().exception());
-        assertEquals(ServiceErrorCode.INVALID_SORT_REGEX, response.getBody().errorCode());
+        Assertions.assertEquals(ServiceErrorCode.INVALID_SORT_REGEX, response.getBody().errorCode());
     }
 
     @Test

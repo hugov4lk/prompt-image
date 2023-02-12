@@ -1,4 +1,4 @@
-package com.example.homework.repository;
+package com.example.java.template.repository;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.example.homework.repository.entity.Car;
+import com.example.java.template.repository.entity.Car;
 
 @Repository
 public interface CarRepository extends JpaRepository<Car, Long> {
