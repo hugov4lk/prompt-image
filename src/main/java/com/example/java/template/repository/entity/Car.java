@@ -1,6 +1,5 @@
 package com.example.java.template.repository.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -10,13 +9,10 @@ import lombok.Getter;
 public class Car {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Long personId;
     private String make;
     private String model;
     private String numberplate;
-
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "person_id", nullable = false)
-    private User person;
 }

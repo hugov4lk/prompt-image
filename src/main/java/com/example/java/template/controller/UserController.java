@@ -33,4 +33,16 @@ public class UserController {
         List<User> users = userService.findAll(find, strings[0], Sort.Direction.valueOf(strings[1].toUpperCase()));
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
+
+    @PostMapping
+    public ResponseEntity<User> save(@RequestBody User user) {
+        User savedUser = userService.save(user);
+        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<User> delete(@PathVariable Long id) {
+        userService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

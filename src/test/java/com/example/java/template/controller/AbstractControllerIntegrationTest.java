@@ -58,9 +58,9 @@ abstract class AbstractControllerIntegrationTest {
     }
 
     @Test
-    void doInvalidPostRequest_internalServerErrorStatusCodeReturned() {
+    void doInvalidPutRequest_internalServerErrorStatusCodeReturned() {
         ResponseEntity<ExceptionDto> response = restTemplate.exchange(getPath(),
-                HttpMethod.POST,
+                HttpMethod.PUT,
                 new HttpEntity<>(new HttpHeaders()),
                 new ParameterizedTypeReference<>() {
                 });
@@ -68,7 +68,14 @@ abstract class AbstractControllerIntegrationTest {
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         assertNotNull(response.getBody());
         assertEquals("Internal server error", response.getBody().message());
-        assertEquals("Request method 'POST' is not supported", response.getBody().exception());
+        assertEquals("Request method 'PUT' is not supported", response.getBody().exception());
+    }
+
+
+    protected static HttpHeaders getHeaders() {
+        var headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        return headers;
     }
 
     private static class InvalidSortRequestParametersArgumentsProvider implements ArgumentsProvider {

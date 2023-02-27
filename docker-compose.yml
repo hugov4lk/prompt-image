@@ -4,3 +4,11 @@ services:
     build: .
     ports:
       - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/java-template-postgres
+      - SPRING_DATASOURCE_USERNAME=user
+      - SPRING_DATASOURCE_PASSWORD=password
+
+networks:
+  default:
+    driver: bridge

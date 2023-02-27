@@ -1,7 +1,7 @@
 package com.example.java.template.controller;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static com.example.java.template.AbstractTest.readFileToString;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 
@@ -18,6 +18,9 @@ import com.example.java.template.repository.entity.User;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class UserControllerIntegrationTest extends AbstractControllerIntegrationTest {
+
+    private static final String USER_POST_REQUEST_BODY = readFileToString("controller/user/post-request-body.json");
+    private static final String USER_PUT_REQUEST_BODY = readFileToString("controller/user/put-request-body.json");
 
     @Override
     protected String getPath() {
@@ -69,5 +72,57 @@ class UserControllerIntegrationTest extends AbstractControllerIntegrationTest {
         assertEquals(2, response.getBody().size());
         assertEquals("Teet Järveküla", response.getBody().get(0).getName());
         assertEquals("Teet Kruus", response.getBody().get(1).getName());
+    }
+
+
+    @Test
+    @Sql(scripts = "/db/controller/user/cleanup-data.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    void saveUser_success() {
+        ResponseEntity<User> response = restTemplate.exchange("/users",
+                HttpMethod.POST,
+                new HttpEntity<>(USER_POST_REQUEST_BODY, getHeaders()),
+                User.class);
+
+        assertNotNull(response.getBody());
+        assertEquals("Boss", response.getBody().getName());
+    }
+
+    @Test
+    @Sql(scripts = "/db/controller/user/cleanup-data.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    void updateUser_success() {
+        ResponseEntity<User> saveResponse = restTemplate.exchange("/users",
+                HttpMethod.POST,
+                new HttpEntity<>(USER_POST_REQUEST_BODY, getHeaders()),
+                User.class);
+
+        assertNotNull(saveResponse.getBody());
+        assertEquals("Boss", saveResponse.getBody().getName());
+
+        ResponseEntity<User> response = restTemplate.exchange("/users",
+                HttpMethod.POST,
+                new HttpEntity<>(USER_PUT_REQUEST_BODY, getHeaders()),
+                User.class);
+
+        assertNotNull(response.getBody());
+        assertEquals("BossBoss", response.getBody().getName());
+    }
+
+    @Test
+    @Sql(scripts = "/db/controller/user/cleanup-data.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    void deleteUser_success() {
+        ResponseEntity<User> saveResponse = restTemplate.exchange("/users",
+                HttpMethod.POST,
+                new HttpEntity<>(USER_POST_REQUEST_BODY, getHeaders()),
+                User.class);
+
+        assertNotNull(saveResponse.getBody());
+        assertTrue(saveResponse.getStatusCode().is2xxSuccessful());
+
+        ResponseEntity<String> response = restTemplate.exchange("/users/" + saveResponse.getBody().getId(),
+                HttpMethod.DELETE,
+                new HttpEntity<>(getHeaders()),
+                String.class);
+
+        assertTrue(response.getStatusCode().is2xxSuccessful());
     }
 }

@@ -1,7 +1,7 @@
 package com.example.java.template.controller;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static com.example.java.template.AbstractTest.readFileToString;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 
@@ -19,6 +19,9 @@ import com.example.java.template.repository.entity.Car;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CarControllerIntegrationTest extends AbstractControllerIntegrationTest {
 
+    private static final String CAR_POST_REQUEST_BODY = readFileToString("controller/car/post-request-body.json");
+    private static final String CAR_PUT_REQUEST_BODY = readFileToString("controller/car/put-request-body.json");
+
     @Override
     protected String getPath() {
         return "/cars";
@@ -31,8 +34,7 @@ class CarControllerIntegrationTest extends AbstractControllerIntegrationTest {
         ResponseEntity<Car> response = restTemplate.exchange("/cars/1",
                 HttpMethod.GET,
                 new HttpEntity<>(new HttpHeaders()),
-                new ParameterizedTypeReference<>() {
-                });
+                Car.class);
 
         assertNotNull(response.getBody());
         assertEquals(1, response.getBody().getId());
@@ -89,5 +91,65 @@ class CarControllerIntegrationTest extends AbstractControllerIntegrationTest {
         assertEquals(2, response.getBody().size());
         assertEquals("Lada", response.getBody().get(0).getMake());
         assertEquals("Kia", response.getBody().get(1).getMake());
+    }
+
+    @Test
+    @Sql("/db/controller/user/create-data.sql")
+    @Sql(scripts = "/db/controller/car/cleanup-data.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    void saveCar_success() {
+        ResponseEntity<Car> response = restTemplate.exchange("/cars",
+                HttpMethod.POST,
+                new HttpEntity<>(CAR_POST_REQUEST_BODY, getHeaders()),
+                Car.class);
+
+        assertNotNull(response.getBody());
+        assertEquals("BMW", response.getBody().getMake());
+        assertEquals("320d", response.getBody().getModel());
+        assertEquals("515DBD", response.getBody().getNumberplate());
+    }
+
+    @Test
+    @Sql("/db/controller/user/create-data.sql")
+    @Sql(scripts = "/db/controller/car/cleanup-data.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    void updateCar_success() {
+        ResponseEntity<Car> saveResponse = restTemplate.exchange("/cars",
+                HttpMethod.POST,
+                new HttpEntity<>(CAR_POST_REQUEST_BODY, getHeaders()),
+                Car.class);
+
+        assertNotNull(saveResponse.getBody());
+        assertEquals("BMW", saveResponse.getBody().getMake());
+        assertEquals("320d", saveResponse.getBody().getModel());
+        assertEquals("515DBD", saveResponse.getBody().getNumberplate());
+
+        ResponseEntity<Car> response = restTemplate.exchange("/cars",
+                HttpMethod.POST,
+                new HttpEntity<>(CAR_PUT_REQUEST_BODY, getHeaders()),
+                Car.class);
+
+        assertNotNull(response.getBody());
+        assertEquals("BMW", response.getBody().getMake());
+        assertEquals("320d", response.getBody().getModel());
+        assertEquals("999VLK", response.getBody().getNumberplate());
+    }
+
+    @Test
+    @Sql("/db/controller/user/create-data.sql")
+    @Sql(scripts = "/db/controller/car/cleanup-data.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    void deleteCar_success() {
+        ResponseEntity<Car> saveResponse = restTemplate.exchange("/cars",
+                HttpMethod.POST,
+                new HttpEntity<>(CAR_POST_REQUEST_BODY, getHeaders()),
+                Car.class);
+
+        assertNotNull(saveResponse.getBody());
+        assertTrue(saveResponse.getStatusCode().is2xxSuccessful());
+
+        ResponseEntity<String> response = restTemplate.exchange("/cars/" + saveResponse.getBody().getId(),
+                HttpMethod.DELETE,
+                new HttpEntity<>(getHeaders()),
+                String.class);
+
+        assertTrue(response.getStatusCode().is2xxSuccessful());
     }
 }

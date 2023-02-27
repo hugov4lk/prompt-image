@@ -5,10 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.java.template.controller.util.ValidationUtil;
 import com.example.java.template.repository.entity.Car;
@@ -39,5 +36,17 @@ public class CarController {
     @GetMapping("/users/{id}/cars")
     public ResponseEntity<List<Car>> getUserCars(@PathVariable Long id) {
         return new ResponseEntity<>(carService.findByPersonId(id), HttpStatus.OK);
+    }
+
+    @PostMapping("/cars")
+    public ResponseEntity<Car> save(@RequestBody Car car) {
+        Car savedCar = carService.save(car);
+        return new ResponseEntity<>(savedCar, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/cars/{id}")
+    public ResponseEntity<String> delete(@PathVariable Long id) {
+        carService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
