@@ -22,7 +22,7 @@ public class PostController {
         return new ResponseEntity<>(BEARER_TOKEN, HttpStatus.OK);
     }
 
-    @PostMapping("/generate-post")
+    @PostMapping("/generate")
     public ResponseEntity<String> generatePost(@RequestBody String prompt) {
         Midjourney midjourney = new Midjourney();
         midjourney.setPrompt(prompt);
