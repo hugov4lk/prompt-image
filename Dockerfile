@@ -4,7 +4,7 @@ COPY . .
 RUN gradle build
 
 FROM eclipse-temurin:17-jdk-jammy
-ENV JAR_NAME=java-template.jar
+ENV JAR_NAME=prompt-image.jar
 ENV APP_HOME=/usr/app/
 WORKDIR $APP_HOME
 COPY --from=BUILD $APP_HOME .
